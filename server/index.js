@@ -30,7 +30,7 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     const user = removeUser(socket.id);
-    //TODO: Remove user from userlist
+    io.in(user?.room).emit("userList", getUsersInRoom(user?.room));
   });
 
   socket.on("getUsers", ({ room }) => {
