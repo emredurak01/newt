@@ -1,4 +1,4 @@
-const rooms = [];
+let rooms = [];
 
 const addRoom = (room) => {
   if (!rooms.includes(room)) {
@@ -6,10 +6,12 @@ const addRoom = (room) => {
   }
 };
 
-//TODO: Remove room
-
 const getRooms = () => {
   return rooms;
 };
 
-module.exports = { addRoom, getRooms };
+const setRooms = (newRooms = []) => {
+  rooms = newRooms
+};
+
+module.exports = { addRoom, getRooms, setRooms };
