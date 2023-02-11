@@ -17,7 +17,7 @@ function Home() {
       <div className=" px-6 lg:px-8 min-h-screen">
         <div className="mx-auto max-w-2xl py-48 sm:py-64 lg:py-80">
           <div className="text-center">
-            <h1 class="bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text text-3xl font-extrabold text-transparent sm:text-5xl">
+            <h1 className="bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text text-3xl font-extrabold text-transparent sm:text-5xl">
               Newt.
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-500">

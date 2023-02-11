@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import io from "socket.io-client";
 import { v4 as uuidv4 } from "uuid";
+import Search from "./Search";
 
 const socket = io.connect("http://localhost:3001");
 
@@ -24,6 +25,7 @@ function Room() {
 
   return (
     <div>
+      <Search></Search>
       <div>Room: {room}</div>
       <div>Name: {name}</div>
       <div>
