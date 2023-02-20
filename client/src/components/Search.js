@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Results from "./Results";
 
 function Search() {
   const [searchInput, setSearchInput] = useState("");
-  const [searchResult, setSearchResult] = useState([]);
-
+  const [searchResults, setSearchResults] = useState([]);
+  // let url = `https://www.youtube.com/watch?v=${result.id.videoId}`;
   const handlePlay = () => {
     search({ query: searchInput });
   };
@@ -15,12 +16,12 @@ function Search() {
       url: process.env.REACT_APP_BASE_URL,
       params: {
         part: "snippet",
-        maxResults: "1",
+        maxResults: "8",
         key: process.env.REACT_APP_YT_API,
         q: query,
       },
     }).then((res) => {
-      setSearchResult(res.data.items);
+      setSearchResults(res.data.items);
     });
   };
 
@@ -36,6 +37,7 @@ function Search() {
         onChange={(e) => setSearchInput(e.target.value)}
         onKeyDown={(e) => (e.key === "Enter" ? handlePlay(e) : null)}
       />
+      <Results searchResults={searchResults}></Results>
     </div>
   );
 }

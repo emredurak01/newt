@@ -30,7 +30,7 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     const user = removeUser(socket.id);
-
+    
     if(getUsersInRoom(user?.room).length === 0) {
       let populatedRooms = getRooms().filter(function(e) { return e !== user?.room })
       setRooms(populatedRooms)
