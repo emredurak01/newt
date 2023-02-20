@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Results from "./Results";
 
-function Search() {
+function Search({ playSearchedVideo }) {
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   // let url = `https://www.youtube.com/watch?v=${result.id.videoId}`;
@@ -37,7 +37,10 @@ function Search() {
         onChange={(e) => setSearchInput(e.target.value)}
         onKeyDown={(e) => (e.key === "Enter" ? handlePlay(e) : null)}
       />
-      <Results searchResults={searchResults}></Results>
+      <Results
+        searchResults={searchResults}
+        onVideoPlay={(selectedVideo) => playSearchedVideo(selectedVideo)}
+      ></Results>
     </div>
   );
 }
