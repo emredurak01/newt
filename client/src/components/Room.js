@@ -12,9 +12,22 @@ function Room() {
   const [name, setName] = useState(uuidv4().slice(0, 6));
   const [userList, setUserList] = useState([]);
 
-  const playSearchedVideo = (item) => {
-    console.log(item.id.videoId);
+  const [selectedVideo, setSelectedVideo] = useState("");
+
+  const playSearchedVideo = (videoUrl) => {
+    setSelectedVideo(videoUrl);
+    socket.emit("selectedVideo", videoUrl);
   };
+
+  useEffect(() => {
+    socket.on("selectedVideo", (videoUrl) => {
+      setSelectedVideo(videoUrl);
+    });
+
+    return () => {
+      socket.off("selectedVideo");
+    };
+  }, []);
 
   useEffect(() => {
     socket.emit("join", { name, room });
@@ -29,7 +42,10 @@ function Room() {
 
   return (
     <div>
-      <Video playSearchedVideo={playSearchedVideo}></Video>
+      <Video
+        selectedVideo={selectedVideo}
+        playSearchedVideo={playSearchedVideo}
+      ></Video>
 
       <div>Room: {room}</div>
       <div>Name: {name}</div>

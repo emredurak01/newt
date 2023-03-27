@@ -1,7 +1,7 @@
 let rooms = [];
 
 const addRoom = (room) => {
-  if (!rooms.includes(room)) {
+  if (!rooms.some((r) => r.name === room.name)) {
     rooms.push(room);
   }
 };
@@ -11,7 +11,29 @@ const getRooms = () => {
 };
 
 const setRooms = (newRooms = []) => {
-  rooms = newRooms
+  rooms = newRooms;
 };
 
-module.exports = { addRoom, getRooms, setRooms };
+const setVideoUrlForRoom = (roomName, videoUrl) => {
+  const roomIndex = rooms.findIndex((r) => r.name === roomName);
+  if (roomIndex !== -1) {
+    rooms[roomIndex].videoUrl = videoUrl;
+  }
+};
+
+const getVideoUrlForRoom = (roomName) => {
+  const room = rooms.find((r) => r.name === roomName);
+  if (room) {
+    return room.videoUrl;
+  } else {
+    return null;
+  }
+};
+
+module.exports = {
+  addRoom,
+  getRooms,
+  setRooms,
+  setVideoUrlForRoom,
+  getVideoUrlForRoom,
+};

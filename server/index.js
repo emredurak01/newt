@@ -8,7 +8,13 @@ const server = http.createServer(app);
 const cors = require("cors");
 const PORT = 3001;
 
-const { addRoom, getRooms, setRooms} = require("./rooms.js");
+const {
+  addRoom,
+  getRooms,
+  setRooms,
+  setVideoUrlForRoom,
+  getVideoUrlForRoom,
+} = require("./rooms.js");
 const { addUser, getUsersInRoom, removeUser } = require("./users");
 
 app.use(cors());
@@ -30,13 +36,19 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     const user = removeUser(socket.id);
-    
-    if(getUsersInRoom(user?.room).length === 0) {
-      let populatedRooms = getRooms().filter(function(e) { return e !== user?.room })
-      setRooms(populatedRooms)
-    } 
-    
+
+    if (getUsersInRoom(user?.room).length === 0) {
+      let populatedRooms = getRooms().filter(function (e) {
+        return e !== user?.room;
+      });
+      setRooms(populatedRooms);
+    }
+
     io.in(user?.room).emit("userList", getUsersInRoom(user?.room));
+  });
+
+  socket.on("selectedVideo", (videoUrl) => {
+    io.emit("selectedVideo", videoUrl);
   });
 
   socket.on("getUsers", ({ room }) => {

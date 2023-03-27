@@ -1,11 +1,19 @@
 import React from "react";
 import Player from "./Player";
+import ReactPlayer from "react-player";
 import Search from "./Search";
 
-function Video({ playSearchedVideo }) {
+function Video({ selectedVideo, playSearchedVideo }) {
   return (
     <div>
-      <Player></Player>
+      <ReactPlayer
+        url={
+          selectedVideo
+            ? `https://www.youtube.com/watch?v=${selectedVideo.id.videoId}`
+            : ""
+        }
+      />
+
       <Search playSearchedVideo={playSearchedVideo}></Search>
     </div>
   );
