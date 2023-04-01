@@ -1,3 +1,5 @@
+const { removeRoom } = require("./rooms.js");
+
 const users = [];
 
 const addUser = ({ id, name, room }) => {
@@ -12,8 +14,13 @@ const addUser = ({ id, name, room }) => {
 
 const removeUser = (id) => {
   const index = users.findIndex((user) => user.id === id);
-  if (index != -1) {
-    return users.splice(index, 1)[0];
+  if (index !== -1) {
+    const user = users[index];
+    users.splice(index, 1);
+    if (getUsersInRoom(user.room).length === 0) {
+      removeRoom(user.room);
+    }
+    return user;
   }
 };
 

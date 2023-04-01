@@ -1,8 +1,15 @@
 let rooms = [];
 
-const addRoom = (room) => {
-  if (!rooms.some((r) => r.name === room.name)) {
-    rooms.push(room);
+const addRoom = (roomName) => {
+  if (!rooms.some((r) => r.name === roomName)) {
+    rooms.push({ name: roomName });
+  }
+};
+
+const removeRoom = (roomName) => {
+  const index = rooms.findIndex((room) => room.name === roomName);
+  if (index !== -1) {
+    rooms.splice(index, 1);
   }
 };
 
@@ -15,9 +22,10 @@ const setRooms = (newRooms = []) => {
 };
 
 const setVideoUrlForRoom = (roomName, videoUrl) => {
-  const roomIndex = rooms.findIndex((r) => r.name === roomName);
-  if (roomIndex !== -1) {
-    rooms[roomIndex].videoUrl = videoUrl;
+  for (i = 0; i < rooms.length; i++) {
+    if (rooms[i] === roomName) {
+      rooms[i].videoUrl = videoUrl;
+    }
   }
 };
 
@@ -36,4 +44,5 @@ module.exports = {
   setRooms,
   setVideoUrlForRoom,
   getVideoUrlForRoom,
+  removeRoom,
 };

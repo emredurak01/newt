@@ -32,6 +32,11 @@ io.on("connection", (socket) => {
 
     addRoom(room);
     socket.join(user.room);
+
+    const videoUrl = getVideoUrlForRoom(room);
+    if (videoUrl) {
+      socket.emit("selectedVideo", videoUrl);
+    }
   });
 
   socket.on("disconnect", () => {
@@ -47,8 +52,9 @@ io.on("connection", (socket) => {
     io.in(user?.room).emit("userList", getUsersInRoom(user?.room));
   });
 
-  socket.on("selectedVideo", (videoUrl) => {
-    io.emit("selectedVideo", videoUrl);
+  socket.on("selectedVideo", ({ room, videoUrl }) => {
+    setVideoUrlForRoom(room, videoUrl);
+    io.in(room.room).emit("selectedVideo", videoUrl);
   });
 
   socket.on("getUsers", ({ room }) => {
