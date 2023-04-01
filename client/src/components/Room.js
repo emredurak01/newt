@@ -15,18 +15,10 @@ function Room() {
 
   const playSearchedVideo = (videoUrl) => {
     setSelectedVideo(videoUrl);
-    socket.emit("selectedVideo", { room, videoUrl });
+    socket.emit("updateSelectedVideo", { room, videoUrl });
   };
 
-  /*
   useEffect(() => {
-    socket.on("selectedVideo", ({ room: receivedRoom, videoUrl }) => {
-      if (receivedRoom === room) {
-        setSelectedVideo(videoUrl);
-      }
-    });
-
-    socket.emit("getSelectedVideo", { room });
     socket.on("selectedVideo", ({ room: receivedRoom, videoUrl }) => {
       if (receivedRoom === room) {
         setSelectedVideo(videoUrl);
@@ -36,7 +28,7 @@ function Room() {
     return () => {
       socket.off("selectedVideo");
     };
-  }, [room]); */
+  }, [room]);
 
   useEffect(() => {
     socket.emit("join", { name, room });

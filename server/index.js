@@ -35,7 +35,7 @@ io.on("connection", (socket) => {
 
     const videoUrl = getVideoUrlForRoom(room);
     if (videoUrl) {
-      socket.emit("selectedVideo", videoUrl);
+      io.to(socket.id).emit("selectedVideo", { room, videoUrl });
     }
   });
 
@@ -55,6 +55,11 @@ io.on("connection", (socket) => {
   socket.on("selectedVideo", ({ room, videoUrl }) => {
     setVideoUrlForRoom(room, videoUrl);
     io.in(room.room).emit("selectedVideo", videoUrl);
+  });
+
+  socket.on("updateSelectedVideo", ({ room, videoUrl }) => {
+    setVideoUrlForRoom(room, videoUrl);
+    io.in(room).emit("selectedVideo", { room, videoUrl });
   });
 
   socket.on("getUsers", ({ room }) => {

@@ -23,18 +23,19 @@ const setRooms = (newRooms = []) => {
 
 const setVideoUrlForRoom = (roomName, videoUrl) => {
   for (i = 0; i < rooms.length; i++) {
-    if (rooms[i] === roomName) {
+    if (rooms[i].name === roomName) {
       rooms[i].videoUrl = videoUrl;
     }
   }
 };
 
 const getVideoUrlForRoom = (roomName) => {
-  const room = rooms.find((r) => r.name === roomName);
-  if (room) {
-    return room.videoUrl;
-  } else {
-    return null;
+  for (i = 0; i < rooms.length; i++) {
+    if (rooms[i].name === roomName) {
+      if (rooms[i].videoUrl) {
+        return rooms[i].videoUrl;
+      }
+    }
   }
 };
 
