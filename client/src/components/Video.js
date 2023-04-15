@@ -1,9 +1,14 @@
 import React from "react";
-import Player from "./Player";
 import ReactPlayer from "react-player";
 import Search from "./Search";
 
-function Video({ selectedVideo, playSearchedVideo }) {
+function Video({
+  selectedVideo,
+  playSearchedVideo,
+  onPlay,
+  onPause,
+  isPlaying,
+}) {
   return (
     <div>
       {selectedVideo ? (
@@ -14,6 +19,10 @@ function Video({ selectedVideo, playSearchedVideo }) {
                 ? `https://www.youtube.com/watch?v=${selectedVideo.id.videoId}`
                 : ""
             }
+            onPlay={() => onPlay()}
+            onPause={() => onPause()}
+            playing={isPlaying}
+            controls={true}
           />
         </div>
       ) : null}
@@ -23,8 +32,3 @@ function Video({ selectedVideo, playSearchedVideo }) {
 }
 
 export default Video;
-/*
-
-
-     
-*/

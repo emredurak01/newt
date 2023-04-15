@@ -52,14 +52,25 @@ io.on("connection", (socket) => {
     io.in(user?.room).emit("userList", getUsersInRoom(user?.room));
   });
 
-  socket.on("selectedVideo", ({ room, videoUrl }) => {
-    setVideoUrlForRoom(room, videoUrl);
-    io.in(room.room).emit("selectedVideo", videoUrl);
-  });
-
   socket.on("updateSelectedVideo", ({ room, videoUrl }) => {
     setVideoUrlForRoom(room, videoUrl);
     io.in(room).emit("selectedVideo", { room, videoUrl });
+  });
+
+  socket.on("playVideo", ({ room }) => {
+    const videoUrl = getVideoUrlForRoom(room);
+    const isPlaying = true;
+    setVideoUrlForRoom(room, videoUrl);
+    io.in(room).emit("selectedVideo", { room, videoUrl });
+    io.in(room).emit("playVideo", { isPlaying });
+  });
+
+  socket.on("pauseVideo", ({ room }) => {
+    const videoUrl = getVideoUrlForRoom(room);
+    const isPlaying = false;
+    setVideoUrlForRoom(room, videoUrl);
+    io.in(room).emit("selectedVideo", { room, videoUrl });
+    io.in(room).emit("pauseVideo", { isPlaying });
   });
 
   socket.on("getUsers", ({ room }) => {

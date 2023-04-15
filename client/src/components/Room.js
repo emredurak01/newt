@@ -12,11 +12,33 @@ function Room() {
   const [name, setName] = useState(uuidv4().slice(0, 6));
   const [userList, setUserList] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState("");
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const onPlay = () => {
+    setIsPlaying(true);
+    socket.emit("playVideo", { room });
+  };
+
+  const onPause = () => {
+    setIsPlaying(false);
+    socket.emit("pauseVideo", { room });
+  };
 
   const playSearchedVideo = (videoUrl) => {
     setSelectedVideo(videoUrl);
+    setIsPlaying(true);
     socket.emit("updateSelectedVideo", { room, videoUrl });
   };
+
+  useEffect(() => {
+    socket.on("playVideo", ({ isPlaying }) => {
+      setIsPlaying(isPlaying);
+    });
+
+    socket.on("pauseVideo", ({ isPlaying }) => {
+      setIsPlaying(isPlaying);
+    });
+  }, [isPlaying]);
 
   useEffect(() => {
     socket.on("selectedVideo", ({ room: receivedRoom, videoUrl }) => {
@@ -46,6 +68,9 @@ function Room() {
       <Video
         selectedVideo={selectedVideo}
         playSearchedVideo={playSearchedVideo}
+        onPlay={onPlay}
+        onPause={onPause}
+        isPlaying={isPlaying}
       ></Video>
 
       <div>Room: {room}</div>
