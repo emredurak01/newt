@@ -1,6 +1,5 @@
 import React from "react";
 import ReactPlayer from "react-player";
-import Search from "./Search";
 
 function Video({
   selectedVideo,
@@ -12,7 +11,7 @@ function Video({
   return (
     <div>
       {selectedVideo ? (
-        <div>
+        <div className="flex justify-center ">
           <ReactPlayer
             url={
               selectedVideo
@@ -23,10 +22,10 @@ function Video({
             onPause={() => onPause()}
             playing={isPlaying}
             controls={true}
+            className="w-full h-80 rounded-md"
           />
         </div>
       ) : null}
-      <Search playSearchedVideo={playSearchedVideo}></Search>
     </div>
   );
 }
